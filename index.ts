@@ -18,6 +18,20 @@ app.use(express.urlencoded({ extended: true, limit: '200mb' }));
 
 connectDB();
 
+// Root endpoint
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    message: 'LogHub API Server',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      projects: '/api/projects',
+      logs: '/api/logs/:projectId'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
